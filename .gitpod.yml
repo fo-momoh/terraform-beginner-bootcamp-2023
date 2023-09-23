@@ -10,20 +10,19 @@ github:
 
 tasks:
   - name: terraform
-    init: |
+    before: |
+      sudo apt update
       sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
       curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-      sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-      sudo apt-get update && sudo apt-get install terraform
-  - name: aws-cli
-    env:
-      AWS_CLI_AUTO_PROMPT: on-partial
+      sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
     init: |
       cd /workspace
       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       unzip awscliv2.zip
-      sudo ./aws/install
       cd $THEIA_WORKSPACE_ROOT
+  - command: |
+      sudo ./aws/install
+      sudo apt-get update && sudo apt-get install terraform
 vscode:
   extensions:
     - amazonwebservices.aws-toolkit-vscode
