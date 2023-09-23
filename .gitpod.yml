@@ -13,14 +13,15 @@ tasks:
     before: |
       sudo apt update
       sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+    init: |
       curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
       sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-    init: |
       cd /workspace
       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       unzip awscliv2.zip
       cd $THEIA_WORKSPACE_ROOT
   - command: |
+      cd /workspace
       sudo ./aws/install
       sudo apt-get update && sudo apt-get install terraform
 vscode:
